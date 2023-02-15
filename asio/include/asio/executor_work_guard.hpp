@@ -241,6 +241,11 @@ private:
   bool owns_;
 };
 
+#if defined(ASIO_HAS_DEDUCTION_GUIDES)
+template <typename T>
+executor_work_guard(T) -> executor_work_guard<T>;
+#endif
+
 #endif // !defined(GENERATING_DOCUMENTATION)
 
 /// Create an @ref executor_work_guard object.

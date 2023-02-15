@@ -2251,4 +2251,13 @@
 # endif // !defined(ASIO_DISABLE_SNPRINTF)
 #endif // !defined(ASIO_HAS_SNPRINTF)
 
+// Compiler support for CTAD.
+#if !defined(ASIO_HAS_DEDUCTION_GUIDES)
+# if !defined(ASIO_DISABLE_DEDUCTION_GUIDES)
+#  if defined(__cpp_deduction_guides)
+#   define ASIO_HAS_DEDUCTION_GUIDES 1
+#  endif // defined(__cpp_deduction_guides)
+# endif // !defined(ASIO_DISABLE_DEDUCTION_GUIDES)
+#endif // !defined(ASIO_HAS_DEDUCTION_GUIDES)
+
 #endif // ASIO_DETAIL_CONFIG_HPP

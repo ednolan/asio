@@ -18,8 +18,26 @@
 
 #include "unit_test.hpp"
 
+#include "asio/io_context.hpp"
+#if defined(ASIO_HAS_MOVE)
+#include <utility>
+#endif
+
+void executor_work_guard_ctad_test() {
+#if defined(ASIO_HAS_DEDUCTION_GUIDES)
+  asio::io_context ioc;
+  asio::io_context::executor_type executor = ioc.get_executor();
+  // executor_work_guard can be CTAD constructed by copy
+  asio::executor_work_guard copy_guard(executor);
+  // executor_work_guard can be CTAD constructed by move
+#if defined(ASIO_HAS_MOVE)
+  asio::executor_work_guard move_guard(std::move(executor));
+#endif // defined(ASIO_HAS_DEDUCTION_GUIDES)
+#endif // defined(ASIO_HAS_MOVE)
+}
+
 ASIO_TEST_SUITE
 (
   "executor_work_guard",
-  ASIO_TEST_CASE(null_test)
+  ASIO_TEST_CASE(executor_work_guard_ctad_test)
 )
